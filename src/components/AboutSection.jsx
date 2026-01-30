@@ -1,4 +1,5 @@
-import { Briefcase, Code } from "lucide-react";
+import { Briefcase, Code, User } from "lucide-react";
+
 
 
 export const AboutSection = () => {
@@ -43,8 +44,9 @@ export const AboutSection = () => {
                                     <Code className="h-6 w-6 text-primary" />
                                 </div>
                                 <div className="text-left">
-                                    <h4>Web Development</h4>
-                                    <h4>Cyber Security</h4>
+                                    <h4 className="font-semibold text-lg">Web Development</h4>
+                                    <p className="text-muted-foreground">Responsive, secure web applications using modern technologies</p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -53,12 +55,22 @@ export const AboutSection = () => {
                                 <div className="p-3 rounded-full bg-primary/10">
                                     <User className="h-6 w-6 text-primary" />
                                 </div>
+                                <div className="text-left">
+                                    <h4 className="font-semibold text-lg">UI/UX Design</h4>
+                                    <p className="text-muted-foreground">User-centric interfaces with clean, intuitive visual design</p>
+                                    
+                                </div>
                             </div>
                         </div>
                         <div className="gradient-border p-6 card-hover">
                             <div className="flex items-start gap-4">
                                 <div className="p-3 rounded-full bg-primary/10">
                                     <Briefcase className="h-6 w-6 text-primary" />
+                                </div>
+                                <div className="text-left">
+                                    <h4 className="font-semibold text-lg">Cybersecurity</h4>
+                                    <p className="text-muted-foreground">Strong understanding of cybersecurity technologies and threat mitigation</p>
+                                    
                                 </div>
                             </div>
                         </div>
