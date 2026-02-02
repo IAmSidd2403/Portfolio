@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { X , Menu } from "lucide-react";
+import logo from "@/assets/logo.png";
+
 
 const  navItems = [
     {name: "Home", href: "#hero"},
     {name: "About", href: "#about"},
     {name: "Skills", href: "#skills"},
-    {name: "Projects", href: "#Projects"},
+    {name: "Projects", href: "#projects"},
     {name: "Contact", href: "#contact"},
 ]
 
@@ -27,12 +29,18 @@ export const Navbar = () => {
         <nav 
         className={cn(
             "fixed w-full z-40 transition-all duration-300",
-            isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-sm": "py-5"
+            isScrolled ? "py-3 bg-background/80 backdrop-blur-md shadow-xs": "py-5"
         )}
         >
             <div className="container flex items-center justify-between">
 
                 <a className="text-xl font-bold  text-primary flex items-center" href="#hero">
+                    <img
+                        src={logo}
+                        alt="Portfolio Logo"
+                        className="h-20 w-20s object-contain"
+                    />
+
                     <span className="relative z-10">
                         <span className="text-glow text-foreground">  Siddharth </span> {" "} Pandey
                     </span>
@@ -70,7 +78,7 @@ export const Navbar = () => {
                     <div className="flex flex-col space-y-8 text-xl">
                     
                     {navItems.map((item, key) => (
-                        <a key={key} href={item.href} className="text-foreground/80 hover:text-primary tarsition-colors duration-300" onClick={() => setIsMenuOpen(false)}>
+                        <a key={key} href={item.href} className="text-foreground/80 hover:text-primary transition-colors duration-300" onClick={() => setIsMenuOpen(false)}>
                             {item.name}
                         </a>
                     ))}
