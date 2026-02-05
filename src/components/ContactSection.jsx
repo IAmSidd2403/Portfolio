@@ -1,121 +1,189 @@
-import { Mail, Phone, MapPin, Linkedin, Twitter, Instagram, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Linkedin, Instagram, Send } from "lucide-react";
+import { useRef, useState } from "react";
+import emailjs from "@emailjs/browser";
+
 import { cn } from "@/lib/utils";
 import { useToast } from "../hooks/use-toast.js";
-import { useState } from "react";
-
-
 
 export const ContactSection = () => {
-
   const { toast } = useToast();
-  const [isSubmitting,setIsSubmitting] = useState(false);
 
+  // Form reference
+  const formRef = useRef(null);
+
+  // Loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Submit Handler
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    // ENV variables (from Vercel + .env)
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    // Check if env variables exist
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
       toast({
-        title: "Message sent",
-        description: "Thank you for your message. But we can not recive message as we are not rich, so kindly use our contacts.",
+        title: "Configuration Error ❌",
+        description: "Email service is not configured properly.",
       });
       setIsSubmitting(false);
-    },1500)
-    
+      return;
+    }
+
+    // Send Email using EmailJS
+    emailjs
+      .sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, {
+        publicKey: PUBLIC_KEY,
+      })
+      .then(() => {
+        toast({
+          title: "Message Sent Successfully ✅",
+          description: "Thanks for reaching out! I'll reply soon.",
+        });
+
+        // Reset form after success
+        formRef.current.reset();
+      })
+      .catch((error) => {
+        console.error("EmailJS Error:", error);
+
+        toast({
+          title: "Failed to Send ❌",
+          description: "Something went wrong. Please try again later.",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
     <section id="contact" className="py-24 px-4 relative bg-secondary/30">
-      
       <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          Get In <span className="text-primary ">Touch</span>
+        {/* Heading */}
+        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">
+          Contact <span className="text-primary">Me</span>
         </h2>
 
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-          I’m open to new opportunities, collaborations, and projects. Feel free to reach out—I’d love to connect and create impactful solutions together.
-        </p>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* LEFT SIDE INFO */}
           <div className="space-y-8">
-            <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
-            <div className="space-y-6 justify-center">
+            <h3 className="text-2xl font-semibold">
+              Let's Connect 🚀
+            </h3>
 
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Mail className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium">Email</h4>
-                  <a  className="text-muted-foreground hover:text-primary transition-colors">
-                    siddpandey2403@gmail.com
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <Phone className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium">Phone</h4>
-                  <a href="telto:+918800807200" className="text-muted-foreground hover:text-primary transition-colors">
-                    +91 88008 07200
-                  </a>
-                </div>
-              </div>
-              <div className="flex items-start space-x-4">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <MapPin className="h-6 w-6 text-primary" />{" "}
-                </div>
-                <div>
-                  <h4 className="font-medium">Location</h4>
-                  <a href="mailto:siddpandey2403@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
-                    New Delhi, Delhi, India
-                  </a>
-                </div>
+            <p className="text-muted-foreground">
+              Have a project idea, internship opportunity, or just want to say hi?
+              Fill out the form and I’ll get back to you.
+            </p>
+
+            {/* Contact Info */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <Mail className="text-primary" />
+                <span>siddpandey2403@gmail.com</span>
               </div>
 
+              <div className="flex items-center gap-3">
+                <Phone className="text-primary" />
+                <span>+91-XXXXXXXXXX</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <MapPin className="text-primary" />
+                <span>India</span>
+              </div>
             </div>
-            <div className="pt-8">
 
-              <h4 className="font-medium mb-4">Connect With Me</h4>
-              <div className="flex space-x-4 justify-center">
-                <a href="https://www.linkedin.com/in/siddharth-pandey-144205277" target="_blank"><Linkedin /></a>
-                <a href="" target="_blank"><Twitter /></a>
-                <a href="https://www.instagram.com/pandey.siddharth.30/?hl=en" target="_blank"><Instagram /></a>
-                
-              </div>
+            {/* Social Links */}
+            <div className="flex gap-4">
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                className="hover:text-primary transition"
+              >
+                <Linkedin />
+              </a>
 
-
-
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                className="hover:text-primary transition"
+              >
+                <Instagram />
+              </a>
             </div>
           </div>
-          <div className="bg-card p-8 rounded-lg shadow-xs" onSubmit={handleSubmit}>
-            <h3 className="text-2xl font-semibold mb-6">Send a Message</h3>
-            <form action="" className="space-y-6">
+
+          {/* RIGHT SIDE FORM */}
+          <div className="bg-card p-8 rounded-xl shadow-md">
+            <h3 className="text-2xl font-semibold mb-6">
+              Send a Message ✉️
+            </h3>
+
+            {/* FORM */}
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              {/* Name */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-2">Your Name</label>
-                <input type="text" id="name" name="name" required className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary" placeholder="Jhon Macdonald..." />
+                <label className="block text-sm font-medium mb-2">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Enter your name"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
+
+              {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-2">Your Email</label>
-                <input type="email" id="email" name="email" required className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary" placeholder="Jhon123@gmail.com" />
+                <label className="block text-sm font-medium mb-2">
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
+
+              {/* Message */}
               <div>
-                <label htmlFor="" className="block text-sm font-medium mb-2">Your Message</label>
-                <textarea  id="text" name="text" required className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary " resize="none" placeholder="your message" />
+                <label className="block text-sm font-medium mb-2">
+                  Your Message
+                </label>
+                <textarea
+                  name="message"
+                  required
+                  placeholder="Write your message..."
+                  rows="5"
+                  className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                />
               </div>
-              <button type="submit" className={cn("cosmic-button w-full flex items-center justify-center gap-2",)} disabled={isSubmitting}>
-                {isSubmitting ? "sending..." : "Send Message"}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className={cn(
+                  "cosmic-button w-full flex items-center justify-center gap-2"
+                )}
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
                 <Send size={16} />
               </button>
             </form>
           </div>
         </div>
-
-        
-
       </div>
-
     </section>
   );
-}
+};
