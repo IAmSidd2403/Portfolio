@@ -4,21 +4,23 @@ import React from "react";
 const projects = [
     {
         id: 1,
-        title: "SaaS Landing Page",
-        description: "Books library.",
+        title: "Anime Hub",
+        description: "Anime list web app.",
         image: "/projects/project1.png",
         tags: ["React", "TailwindCSS", "Supabase"],
-        demoUrl: "#",
-        githubUrl: "#",
+        demoUrl: "https://animehub-seven-zeta.vercel.app/",
+        githubUrl: "https://github.com/IAmSidd2403/animehub",
+        
     },
     {
         id: 2,
-        title: "SaaS Landing Page",
-        description: "Anime list web app.",
+        title: "Library",
+        description: " using a an api of Books library.",
         image: "/projects/project2.png",
-        tags: ["React", "TailwindCSS", "Supabase"],
+        tags: ["EJS", "TailwindCSS", "HTML"],
         demoUrl: "#",
-        githubUrl: "#",
+        githubUrl: "https://github.com/IAmSidd2403/Library",
+        
     },
     {
         id: 3,
