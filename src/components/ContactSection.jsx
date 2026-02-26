@@ -90,7 +90,7 @@ export const ContactSection = () => {
 
               <div className="flex items-center gap-3">
                 <Phone className="text-primary" />
-                <span>+91-XXXXXXXXXX</span>
+                <span>+91-8800807200</span>
               </div>
 
               <div className="flex items-center gap-3">
